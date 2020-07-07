@@ -3,6 +3,8 @@ package com.codersbay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import sun.jvm.hotspot.utilities.Assert;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,22 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class EmailCheckerTest {
 
 
+
     @Test
-    @DisplayName("Test that email input with Null throws exception")
+    @DisplayName("Test that email input with Null returns false")
     public void testValidateEmailWithNullInput() {
         String enteredEmail = null;
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForEmptyString(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkForEmptyString(enteredEmail));
     }
 
     @Test
-    @DisplayName("Test that email input with empty String throws exception")
+    @DisplayName("Test that email input with empty String returns false")
     public void testValidateEmailWithEmptyString() {
         String enteredEmail = "";
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForEmptyString(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkForEmptyString(enteredEmail));
     }
 
     @Test
@@ -37,23 +36,19 @@ public class EmailCheckerTest {
     }
 
     @Test
-    @DisplayName("Test that email without @-sign throws exception")
+    @DisplayName("Test that email without @-sign returns false")
     public void testCheckForAtSign2() {
         String enteredEmail = "captainlisapirate.com";
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForAtSign(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkForAtSign(enteredEmail));
     }
 
     @Test
-    @DisplayName("Test that invalid local part throws exception")
+    @DisplayName("Test that invalid local part returns false")
     public void testCheckForLengthOfLocalPartTooShort1() {
         String enteredEmail = "ar@pirate.com";
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkIfLengthOfLocalPartTooShort(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkIfLengthOfLocalPartTooShort(enteredEmail));
     }
 
     @Test
@@ -65,13 +60,11 @@ public class EmailCheckerTest {
     }
 
     @Test
-    @DisplayName("Test that an exception is thrown if local part is longer than 64 chars")
+    @DisplayName("Test that the return value is false if local part is longer than 64 chars")
     public void testCheckForLengthOfLocalPartTooLong1() {
         String enteredEmail = "captainscaptainscaptainscaptainscaptainscaptainscaptainscaptainscaptains@pirate.com";
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkIfLengthOfLocalPartTooLong(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkIfLengthOfLocalPartTooLong(enteredEmail));
     }
 
     @Test
@@ -82,24 +75,10 @@ public class EmailCheckerTest {
         Assertions.assertEquals(true, Main.checkIfLengthOfLocalPartTooLong(enteredEmail));
     }
 
-    @Test
-    @DisplayName("Test that a domain that is too short throws exception")
-    public void testCheckForDomain1() {
-        String enteredEmail = "captain@pirate";
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForDomain(enteredEmail);
-        });
-    }
-
-    @Test
-    @DisplayName("Test that a domain that is too long throws exception")
-    public void testCheckForDomain2() {
-        String enteredEmail = "captain@pirate.ccom";
-
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForDomain(enteredEmail);
-        });
+    @ParameterizedTest
+    @ValueSource(strings = {"captain@pirate", "captain@pirate.ccom"})
+    public void testCheckForDomainWithParameters(String input) {
+        Assertions.assertEquals(false, Main.checkForDomain(input));
     }
 
     @Test
@@ -111,13 +90,11 @@ public class EmailCheckerTest {
     }
 
     @Test
-    @DisplayName("Test that email that starts with '.' throws exception")
+    @DisplayName("Test that email that starts with '.' returns false")
     public void testCheckForFirstChar1() {
         String enteredEmail = ".captain@pirate.com";
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForFirstChar(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkForFirstChar(enteredEmail));
     }
 
     @Test
@@ -129,13 +106,11 @@ public class EmailCheckerTest {
     }
 
     @Test
-    @DisplayName("Test that empty space in the email throws exception")
+    @DisplayName("Test that empty space in the email returns false")
     public void testCheckForEmptySpace1() {
         String enteredEmail = "captain @pirate.com";
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-           Main.checkForEmptySpace(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkForEmptySpace(enteredEmail));
     }
 
     @Test
@@ -147,13 +122,11 @@ public class EmailCheckerTest {
     }
 
     @Test
-    @DisplayName("Test that email with more than one @-signs throws exception")
+    @DisplayName("Test that email with more than one @-signs returns false")
     public void testCheckForMoreThanOneAtSign1() {
         String enteredEmail = "captain@boss@pirate.com";
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            Main.checkForMoreThanOneAtSign(enteredEmail);
-        });
+        Assertions.assertEquals(false, Main.checkForMoreThanOneAtSign(enteredEmail));
     }
 
     @Test

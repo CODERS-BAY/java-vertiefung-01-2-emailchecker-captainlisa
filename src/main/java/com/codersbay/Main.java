@@ -28,9 +28,11 @@ public class Main {
 
     }
 
-    public static void checkForEmptyString(String enteredEmail) {
+    public static boolean checkForEmptyString(String enteredEmail) {
         if (enteredEmail == null || enteredEmail.equals("")) {
-            throw new IllegalArgumentException("Email cannot be null. Please enter a valid email.");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -39,7 +41,7 @@ public class Main {
         if (enteredEmail.contains("@")) {
             return true;
         } else {
-            throw new IllegalArgumentException("Email has to contain one '@'. Please enter a valid email.");
+            return false;
         }
     }
 
@@ -47,7 +49,7 @@ public class Main {
         //check that there is at least 1 char before @
         int indexOfAtSign = enteredEmail.indexOf("@");
         if (indexOfAtSign < 3) {
-            throw new IllegalArgumentException("The local part of the email must be at least 3 characters long.");
+            return false;
         } else {
             return true;
         }
@@ -57,7 +59,7 @@ public class Main {
         //check that the local part is not longer than 64 characters
         int indexOfAtSign = enteredEmail.indexOf("@");
         if (indexOfAtSign >= 64) {
-            throw new IllegalArgumentException("the local part of the email cannot be longer than 64 characters.");
+            return false;
         } else {
             return true;
         }
@@ -68,12 +70,12 @@ public class Main {
         if (enteredEmail.contains(".")) {
             int indexOfDot = enteredEmail.lastIndexOf(".");
             if (indexOfDot > (enteredEmail.length() - 2) || indexOfDot < (enteredEmail.length() - 4)) {
-                throw new IllegalArgumentException("Email needs a valid domain. Please enter a valid email.");
+                return false;
             } else {
                 return true;
             }
         } else {
-            throw new IllegalArgumentException("Email needs a valid domain. Please enter a valid email.");
+            return false;
         }
     }
 
@@ -81,7 +83,7 @@ public class Main {
         //check that email does not start with "."
 
         if (enteredEmail.charAt(0) == '.') {
-            throw new IllegalArgumentException("Email cannot start with a dot.");
+            return false;
         } else {
             return true;
         }
@@ -91,7 +93,7 @@ public class Main {
     public static boolean checkForEmptySpace(String enteredEmail) {
         //check that email does not contain " "
         if(enteredEmail.contains(" ")) {
-            throw new IllegalArgumentException("Email cannot contain blank spaces.");
+            return false;
         } else {
             return true;
         }
@@ -116,7 +118,7 @@ public class Main {
 
         counter = mapOfCharacters.get('@');
         if (counter > 1) {
-            throw new IllegalArgumentException("Email cannot contain more than one @-sign!");
+            return false;
         }  else {
             return true;
         }
